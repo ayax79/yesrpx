@@ -1,5 +1,8 @@
 package org.yestech.rpx.objectmodel;
 
+import org.json.JSONObject;
+import org.json.JSONException;
+
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -9,7 +12,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class Email {
 
     private String type;
-    private String address;
+    private String value;
 
     public String getType() {
         return type;
@@ -19,12 +22,12 @@ public class Email {
         this.type = type;
     }
 
-    public String getAddress() {
-        return address;
+    public String getValue() {
+        return value;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setValue(String value) {
+        this.value = value;
     }
 
     @Override
@@ -34,7 +37,7 @@ public class Email {
 
         Email email = (Email) o;
 
-        if (address != null ? !address.equals(email.address) : email.address != null) return false;
+        if (value != null ? !value.equals(email.value) : email.value != null) return false;
         //noinspection RedundantIfStatement
         if (type != null ? !type.equals(email.type) : email.type != null) return false;
 
@@ -44,7 +47,7 @@ public class Email {
     @Override
     public int hashCode() {
         int result = type != null ? type.hashCode() : 0;
-        result = 31 * result + (address != null ? address.hashCode() : 0);
+        result = 31 * result + (value != null ? value.hashCode() : 0);
         return result;
     }
 
@@ -52,7 +55,14 @@ public class Email {
     public String toString() {
         return "Email{" +
                 "type='" + type + '\'' +
-                ", address='" + address + '\'' +
+                ", value='" + value + '\'' +
                 '}';
+    }
+
+    public static Email fromJson(JSONObject json) throws JSONException {
+        Email email = new Email();
+        email.type = json.getString("type");
+        email.value = json.getString("value");
+        return email;
     }
 }

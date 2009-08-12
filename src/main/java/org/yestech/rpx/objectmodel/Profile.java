@@ -1,7 +1,10 @@
 package org.yestech.rpx.objectmodel;
 
+import org.joda.time.DateTime;
+import org.json.JSONObject;
+import org.json.JSONException;
+
 import javax.xml.bind.annotation.XmlRootElement;
-import java.util.Date;
 
 /**
  * @author A.J. Wright
@@ -14,7 +17,7 @@ public class Profile {
     private String preferredUsername;
     private String url;
     private Gender gender;
-    private Date birthday;
+    private DateTime birthday;
     private String providerName;
     private String identifier;
     private String email;
@@ -59,11 +62,11 @@ public class Profile {
         this.gender = gender;
     }
 
-    public Date getBirthday() {
+    public DateTime getBirthday() {
         return birthday;
     }
 
-    public void setBirthday(Date birthday) {
+    public void setBirthday(DateTime birthday) {
         this.birthday = birthday;
     }
 
@@ -141,5 +144,23 @@ public class Profile {
                 ", identifier='" + identifier + '\'' +
                 ", email='" + email + '\'' +
                 '}';
+    }
+
+    public static Profile fromJson(JSONObject json) throws JSONException {
+        Profile p = new Profile();
+
+        JSONObject jo = json.getJSONObject("name");
+        Name name = new Name();
+        name.setFormatted(jo.getString("formatted"));
+        p.setName(name);
+        p.setDisplayname(json.getString("displayName"));
+        p.setPreferredUsername(json.getString("preferredUsername"));
+        p.setBirthday(RPXDateTimeUtil.fromRPXDateString(json.getString("birthday")));
+        p.setProviderName(json.getString("providerName"));
+        p.setIdentifier(json.getString("identifier"));
+        p.setEmail(json.getString("email"));
+        p.setUrl(json.getString("url"));
+        p.setGender(Gender.fromString(json.getString("gender")));
+        return p;
     }
 }

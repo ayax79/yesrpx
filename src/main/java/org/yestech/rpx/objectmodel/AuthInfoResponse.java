@@ -14,7 +14,7 @@ public class AuthInfoResponse {
     }
 
     @XmlElement(name = "sreg")
-    private Sreg sreg;
+    private SharedRegistration sreg;
 
     @XmlElement(name = "stat")
     private RPXStat stat;
@@ -25,11 +25,11 @@ public class AuthInfoResponse {
     @XmlElement(name = "merged_poco")
     private MergedPoco mergedPoco;
 
-    public Sreg getSreg() {
+    public SharedRegistration getSreg() {
         return sreg;
     }
 
-    public void setSreg(Sreg sreg) {
+    public void setSreg(SharedRegistration sreg) {
         this.sreg = sreg;
     }
 

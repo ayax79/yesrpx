@@ -1,9 +1,15 @@
 package org.yestech.rpx.objectmodel;
 
+import org.joda.time.DateTime;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import static org.yestech.rpx.objectmodel.RPXDateTimeUtil.fromRPXDateString;
+
 import javax.xml.bind.annotation.XmlRootElement;
-import java.util.Date;
-import java.util.List;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 /**
  * @author A.J. Wright
@@ -15,8 +21,9 @@ public class MergedPoco {
     private List<Url> urls = Collections.emptyList();
     private String preferredUsername;
     private String displayname;
-    private Date birthday;
+    private DateTime birthday;
     private List<Email> emails = Collections.emptyList();
+    private Name name;
 
     public Gender getGender() {
         return gender;
@@ -50,11 +57,11 @@ public class MergedPoco {
         this.displayname = displayname;
     }
 
-    public Date getBirthday() {
+    public DateTime getBirthday() {
         return birthday;
     }
 
-    public void setBirthday(Date birthday) {
+    public void setBirthday(DateTime birthday) {
         this.birthday = birthday;
     }
 
@@ -64,6 +71,14 @@ public class MergedPoco {
 
     public void setEmails(List<Email> emails) {
         this.emails = emails;
+    }
+
+    public Name getName() {
+        return name;
+    }
+
+    public void setName(Name name) {
+        this.name = name;
     }
 
     @Override
@@ -76,7 +91,8 @@ public class MergedPoco {
         if (birthday != null ? !birthday.equals(that.birthday) : that.birthday != null) return false;
         if (displayname != null ? !displayname.equals(that.displayname) : that.displayname != null) return false;
         if (emails != null ? !emails.equals(that.emails) : that.emails != null) return false;
-        if (gender != null ? !gender.equals(that.gender) : that.gender != null) return false;
+        if (gender != that.gender) return false;
+        if (name != null ? !name.equals(that.name) : that.name != null) return false;
         if (preferredUsername != null ? !preferredUsername.equals(that.preferredUsername) : that.preferredUsername != null)
             return false;
         //noinspection RedundantIfStatement
@@ -93,6 +109,7 @@ public class MergedPoco {
         result = 31 * result + (displayname != null ? displayname.hashCode() : 0);
         result = 31 * result + (birthday != null ? birthday.hashCode() : 0);
         result = 31 * result + (emails != null ? emails.hashCode() : 0);
+        result = 31 * result + (name != null ? name.hashCode() : 0);
         return result;
     }
 
@@ -105,6 +122,41 @@ public class MergedPoco {
                 ", displayname='" + displayname + '\'' +
                 ", birthday=" + birthday +
                 ", emails=" + emails +
+                ", name='" + name + '\'' +
                 '}';
+    }
+
+    public static MergedPoco fromJson(JSONObject json) throws JSONException {
+        MergedPoco mp = new MergedPoco();
+        mp.gender = Gender.fromString(json.getString("gender"));
+
+        JSONArray array = json.getJSONArray("urls");
+        if (array != null) {
+            mp.urls = new ArrayList<Url>(array.length());
+            for (int i = 0, size = array.length(); i < size; i++) {
+                JSONObject jo = array.getJSONObject(i);
+                Url url = Url.fromJson(jo);
+                mp.urls.add(url);
+            }
+        }
+
+        mp.preferredUsername = json.getString("preferredUsername");
+        mp.displayname = json.getString("displayName");
+
+        JSONObject jo = json.getJSONObject("name");
+        mp.name = Name.fromJson(jo);
+        mp.birthday = fromRPXDateString(json.getString("birthday"));
+
+        array = json.getJSONArray("emails");
+        if (array != null) {
+            mp.emails = new ArrayList<Email>(array.length());
+            for (int i = 0, size = array.length(); i < size; i++) {
+                jo = array.getJSONObject(i);
+                Email email = Email.fromJson(jo);
+                mp.emails.add(email);
+            }
+        }
+
+        return mp;
     }
 }

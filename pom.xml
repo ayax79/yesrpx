@@ -15,14 +15,19 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.jboss.resteasy</groupId>
-            <artifactId>resteasy-jaxrs</artifactId>
-            <version>1.1.GA</version>
+            <groupId>commons-httpclient</groupId>
+            <artifactId>commons-httpclient</artifactId>
+            <version>3.1</version>
         </dependency>
         <dependency>
-            <groupId>org.jboss.resteasy</groupId>
-            <artifactId>resteasy-jaxb-provider</artifactId>
-            <version>1.1.GA</version>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20090211</version>
+        </dependency>
+        <dependency>
+            <groupId>joda-time</groupId>
+            <artifactId>joda-time</artifactId>
+            <version>1.6</version>
         </dependency>
     </dependencies>
     <build>
@@ -40,15 +45,15 @@
         </pluginManagement>
     </build>
     <distributionManagement>
-           <repository>
-               <id>yestech.release</id>
-               <name>Yestech release repository</name>
-               <url>http://repo.yestech.org/content/repositories/releases</url>
-           </repository>
-           <snapshotRepository>
-               <id>yestech.snapshots</id>
-               <name>Yestech snapshots repository</name>
-               <url>http://repo.yestech.org/content/repositories/snapshots</url>
-           </snapshotRepository>
-       </distributionManagement>
+        <repository>
+            <id>yestech.release</id>
+            <name>Yestech release repository</name>
+            <url>http://repo.yestech.org/content/repositories/releases</url>
+        </repository>
+        <snapshotRepository>
+            <id>yestech.snapshots</id>
+            <name>Yestech snapshots repository</name>
+            <url>http://repo.yestech.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+    </distributionManagement>
 </project>

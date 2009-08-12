@@ -1,25 +1,29 @@
 package org.yestech.rpx.objectmodel;
 
+import org.joda.time.DateTime;
+import org.json.JSONObject;
+import org.json.JSONException;
+import static org.yestech.rpx.objectmodel.RPXDateTimeUtil.fromRPXDateString;
+
 import javax.xml.bind.annotation.XmlRootElement;
-import java.util.Date;
 
 /**
  * @author A.J. Wright
  */
 @XmlRootElement(name = "sreg")
-public class Sreg {
+public class SharedRegistration {
 
-    private Date dob;
+    private DateTime dob;
     private String nickname;
     private String fullname;
     private Gender gender;
     private String email;
 
-    public Date getDob() {
+    public DateTime getDob() {
         return dob;
     }
 
-    public void setDob(Date dob) {
+    public void setDob(DateTime dob) {
         this.dob = dob;
     }
 
@@ -60,7 +64,7 @@ public class Sreg {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Sreg sreg = (Sreg) o;
+        SharedRegistration sreg = (SharedRegistration) o;
 
         if (dob != null ? !dob.equals(sreg.dob) : sreg.dob != null) return false;
         if (email != null ? !email.equals(sreg.email) : sreg.email != null) return false;
@@ -84,12 +88,22 @@ public class Sreg {
 
     @Override
     public String toString() {
-        return "Sreg{" +
+        return "SharedRegistration{" +
                 "dob=" + dob +
                 ", nickname='" + nickname + '\'' +
                 ", fullname='" + fullname + '\'' +
                 ", gender=" + gender +
                 ", email='" + email + '\'' +
                 '}';
+    }
+
+    public static SharedRegistration fromJson(JSONObject json) throws JSONException {
+        SharedRegistration sreg = new SharedRegistration();
+        sreg.dob = fromRPXDateString(json.getString("dob"));
+        sreg.nickname = json.getString("nickname");
+        sreg.fullname = json.getString("fullname");
+        sreg.gender = Gender.fromString(json.getString("gender"));
+        sreg.email = json.getString("email");
+        return sreg;
     }
 }

@@ -1,11 +1,9 @@
 package org.yestech.rpx;
 
-import org.jboss.resteasy.client.ClientRequest;
-import org.jboss.resteasy.client.ClientResponse;
 import org.yestech.rpx.objectmodel.AuthInfoResponse;
-
-import javax.ws.rs.core.MediaType;
-import java.awt.*;
+import org.json.JSONObject;
+import org.apache.commons.httpclient.HttpClient;
+import org.apache.commons.httpclient.methods.GetMethod;
 
 /**
  * @author A.J. Wright
@@ -21,15 +19,16 @@ public class DefaultRPXClient implements RPXClient {
     }
 
     public AuthInfoResponse authInfo(String token) throws Exception {
-        ClientRequest request = new ClientRequest(AUTH_INFO_URL);
-        //request.getProviderFactory().addMessageBodyReader();
-        request.accept(MediaType.APPLICATION_JSON_TYPE);
-        request.setHttpMethod("get");
-        request.getQueryParameters().add("token", token);
-        request.getQueryParameters().add("apiKey", apiKey);
-        ClientResponse<AuthInfoResponse> result = request.get(AuthInfoResponse.class);
-        return result.getEntity();
+        HttpClient client = new HttpClient();
+        GetMethod get = new GetMethod(String.format("https://rpxnow.com/api/v2/auth_info?token=%s&apiKey=%s",
+                token,
+                apiKey));
+        client.executeMethod(get);
+        String body = get.getResponseBodyAsString();
+        JSONObject jo = new JSONObject(body);
+
+
+        return null;
     }
-                                                                                                                                                                                        
 
 }
