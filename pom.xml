@@ -39,4 +39,16 @@
             </plugins>
         </pluginManagement>
     </build>
+    <distributionManagement>
+           <repository>
+               <id>yestech.release</id>
+               <name>Yestech release repository</name>
+               <url>http://repo.yestech.org/content/repositories/releases</url>
+           </repository>
+           <snapshotRepository>
+               <id>yestech.snapshots</id>
+               <name>Yestech snapshots repository</name>
+               <url>http://repo.yestech.org/content/repositories/snapshots</url>
+           </snapshotRepository>
+       </distributionManagement>
 </project>
