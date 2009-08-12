@@ -1,0 +1,44 @@
+{
+  "sreg": {
+    "dob": "1979-01-09",
+    "nickname": "A.J.",
+    "fullname": "Andrew Wright",
+    "gender": "M",
+    "email": "ayax79@gmail.com"
+  },
+  "profile": {
+    "name": {
+      "formatted": "Andrew Wright"
+    },
+    "displayName": "Andrew Wright",
+    "preferredUsername": "A.J.",
+    "url": "http:\/\/ayax79.myopenid.com\/",
+    "gender": "male",
+    "birthday": "1979-01-09",
+    "providerName": "MyOpenID",
+    "identifier": "http:\/\/ayax79.myopenid.com\/",
+    "email": "ayax79@gmail.com"
+  },
+  "merged_poco": {
+    "gender": "male",
+    "urls": [
+      {
+        "type": "other",
+        "value": "http:\/\/ayax79.myopenid.com\/"
+      }
+    ],
+    "preferredUsername": "A.J.",
+    "displayName": "Andrew Wright",
+    "name": {
+      "formatted": "Andrew Wright"
+    },
+    "birthday": "1979-01-09",
+    "emails": [
+      {
+        "type": "other",
+        "value": "ayax79@gmail.com"
+      }
+    ]
+  },
+  "stat": "ok"
+}
