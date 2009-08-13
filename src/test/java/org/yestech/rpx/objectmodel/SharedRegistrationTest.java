@@ -4,7 +4,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
-import static org.yestech.rpx.objectmodel.RPXDateTimeUtil.fromRPXDateString;
+import static org.yestech.rpx.objectmodel.RPXUtil.fromRPXDateString;
 
 /**
  * @author A.J. Wright

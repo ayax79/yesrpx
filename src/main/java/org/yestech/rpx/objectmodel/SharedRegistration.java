@@ -2,8 +2,8 @@ package org.yestech.rpx.objectmodel;
 
 import org.joda.time.DateTime;
 import org.json.JSONObject;
-import org.json.JSONException;
-import static org.yestech.rpx.objectmodel.RPXDateTimeUtil.fromRPXDateString;
+import static org.yestech.rpx.objectmodel.RPXUtil.fromRPXDateString;
+import static org.yestech.rpx.objectmodel.RPXUtil.jsonString;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -97,13 +97,13 @@ public class SharedRegistration {
                 '}';
     }
 
-    public static SharedRegistration fromJson(JSONObject json) throws JSONException {
+    public static SharedRegistration fromJson(JSONObject json) {
         SharedRegistration sreg = new SharedRegistration();
-        sreg.dob = fromRPXDateString(json.getString("dob"));
-        sreg.nickname = json.getString("nickname");
-        sreg.fullname = json.getString("fullname");
-        sreg.gender = Gender.fromString(json.getString("gender"));
-        sreg.email = json.getString("email");
+        sreg.dob = fromRPXDateString(jsonString(json, "dob"));
+        sreg.nickname = jsonString(json, "nickname");
+        sreg.fullname = jsonString(json, "fullname");
+        sreg.gender = Gender.fromString(jsonString(json, "gender"));
+        sreg.email = jsonString(json, "email");
         return sreg;
     }
 }

@@ -5,7 +5,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import org.json.JSONObject;
 import org.json.JSONException;
-import static org.yestech.rpx.objectmodel.RPXDateTimeUtil.fromRPXDateString;
+import static org.yestech.rpx.objectmodel.RPXUtil.fromRPXDateString;
 
 /**
  * @author A.J. Wright

@@ -1,8 +1,8 @@
 package org.yestech.rpx.objectmodel;
 
 import org.joda.time.DateTime;
-import org.json.JSONException;
 import org.json.JSONObject;
+import org.json.JSONException;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import org.junit.Test;

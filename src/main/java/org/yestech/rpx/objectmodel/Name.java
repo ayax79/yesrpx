@@ -1,7 +1,7 @@
 package org.yestech.rpx.objectmodel;
 
 import org.json.JSONObject;
-import org.json.JSONException;
+import static org.yestech.rpx.objectmodel.RPXUtil.jsonString;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -46,9 +46,9 @@ public class Name {
                 '}';
     }
 
-    public static Name fromJson(JSONObject jo) throws JSONException {
+    public static Name fromJson(JSONObject jo) {
         Name name = new Name();
-        name.formatted = jo.getString("formatted");
+        name.formatted = jsonString(jo, "formatted");
         return name;
     }
 }

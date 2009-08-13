@@ -2,7 +2,8 @@ package org.yestech.rpx.objectmodel;
 
 import org.joda.time.DateTime;
 import org.json.JSONObject;
-import org.json.JSONException;
+import static org.yestech.rpx.objectmodel.RPXUtil.jsonObject;
+import static org.yestech.rpx.objectmodel.RPXUtil.jsonString;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -146,21 +147,21 @@ public class Profile {
                 '}';
     }
 
-    public static Profile fromJson(JSONObject json) throws JSONException {
+    public static Profile fromJson(JSONObject json) {
         Profile p = new Profile();
 
-        JSONObject jo = json.getJSONObject("name");
+        JSONObject jo = jsonObject(json, "name");
         Name name = new Name();
-        name.setFormatted(jo.getString("formatted"));
+        name.setFormatted(jsonString(jo, "formatted"));
         p.setName(name);
-        p.setDisplayname(json.getString("displayName"));
-        p.setPreferredUsername(json.getString("preferredUsername"));
-        p.setBirthday(RPXDateTimeUtil.fromRPXDateString(json.getString("birthday")));
-        p.setProviderName(json.getString("providerName"));
-        p.setIdentifier(json.getString("identifier"));
-        p.setEmail(json.getString("email"));
-        p.setUrl(json.getString("url"));
-        p.setGender(Gender.fromString(json.getString("gender")));
+        p.setDisplayname(jsonString(json, "displayName"));
+        p.setPreferredUsername(jsonString(json, "preferredUsername"));
+        p.setBirthday(RPXUtil.fromRPXDateString(jsonString(json, "birthday")));
+        p.setProviderName(jsonString(json, "providerName"));
+        p.setIdentifier(jsonString(json, "identifier"));
+        p.setEmail(jsonString(json, "email"));
+        p.setUrl(jsonString(json, "url"));
+        p.setGender(Gender.fromString(jsonString(json, "gender")));
         return p;
     }
 }

@@ -1,7 +1,7 @@
 package org.yestech.rpx.objectmodel;
 
 import org.json.JSONObject;
-import org.json.JSONException;
+import static org.yestech.rpx.objectmodel.RPXUtil.jsonString;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -51,10 +51,10 @@ public class Url {
         return result;
     }
 
-    public static Url fromJson(JSONObject jo) throws JSONException {
+    public static Url fromJson(JSONObject jo) {
         Url url = new Url();
-        url.type = jo.getString("type");
-        url.value = jo.getString("value");
+        url.type = jsonString(jo, "type");
+        url.value = jsonString(jo, "value");
         return url;
     }
     

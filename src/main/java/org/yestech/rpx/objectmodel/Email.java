@@ -1,7 +1,7 @@
 package org.yestech.rpx.objectmodel;
 
 import org.json.JSONObject;
-import org.json.JSONException;
+import static org.yestech.rpx.objectmodel.RPXUtil.jsonString;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -59,10 +59,10 @@ public class Email {
                 '}';
     }
 
-    public static Email fromJson(JSONObject json) throws JSONException {
+    public static Email fromJson(JSONObject json) {
         Email email = new Email();
-        email.type = json.getString("type");
-        email.value = json.getString("value");
+        email.type = jsonString(json, "type");
+        email.value = jsonString(json, "value");
         return email;
     }
 }

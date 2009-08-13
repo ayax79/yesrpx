@@ -1,9 +1,9 @@
 package org.yestech.rpx.objectmodel;
 
-import org.junit.Test;
-import static org.junit.Assert.assertEquals;
 import org.json.JSONObject;
 import org.json.JSONException;
+import static org.junit.Assert.assertEquals;
+import org.junit.Test;
 
 /**
  * @author A.J. Wright

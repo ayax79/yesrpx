@@ -2,9 +2,8 @@ package org.yestech.rpx.objectmodel;
 
 import org.joda.time.DateTime;
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
-import static org.yestech.rpx.objectmodel.RPXDateTimeUtil.fromRPXDateString;
+import static org.yestech.rpx.objectmodel.RPXUtil.*;
 
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.ArrayList;
@@ -126,32 +125,32 @@ public class MergedPoco {
                 '}';
     }
 
-    public static MergedPoco fromJson(JSONObject json) throws JSONException {
+    public static MergedPoco fromJson(JSONObject json){
         MergedPoco mp = new MergedPoco();
-        mp.gender = Gender.fromString(json.getString("gender"));
+        mp.gender = Gender.fromString(jsonString(json, jsonString(json, "gender")));
 
-        JSONArray array = json.getJSONArray("urls");
+        JSONArray array = jsonArray(json, "urls");
         if (array != null) {
             mp.urls = new ArrayList<Url>(array.length());
             for (int i = 0, size = array.length(); i < size; i++) {
-                JSONObject jo = array.getJSONObject(i);
+                JSONObject jo = jsonObject(array, i);
                 Url url = Url.fromJson(jo);
                 mp.urls.add(url);
             }
         }
 
-        mp.preferredUsername = json.getString("preferredUsername");
-        mp.displayname = json.getString("displayName");
+        mp.preferredUsername = jsonString(json, "preferredUsername");
+        mp.displayname = jsonString(json, "displayName");
 
-        JSONObject jo = json.getJSONObject("name");
+        JSONObject jo = jsonObject(json, "name");
         mp.name = Name.fromJson(jo);
-        mp.birthday = fromRPXDateString(json.getString("birthday"));
+        mp.birthday = fromRPXDateString(jsonString(json, "birthday"));
 
-        array = json.getJSONArray("emails");
+        array = jsonArray(json, "emails");
         if (array != null) {
             mp.emails = new ArrayList<Email>(array.length());
             for (int i = 0, size = array.length(); i < size; i++) {
-                jo = array.getJSONObject(i);
+                jo = jsonObject(array, i);
                 Email email = Email.fromJson(jo);
                 mp.emails.add(email);
             }
