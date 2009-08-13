@@ -50,6 +50,15 @@ public final class RPXUtil {
         return null;
     }
 
+    public static int jsonInt(JSONObject jo, String property) {
+        try {
+            if (jo != null) return jo.getInt(property);
+        } catch (JSONException e) {
+            // ignore the exception
+        }
+        return 0;
+    }
+
     public static JSONObject jsonObject(JSONArray array, int index) {
         try {
             if (array != null) return array.getJSONObject(index);
