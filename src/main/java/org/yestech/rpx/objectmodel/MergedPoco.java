@@ -127,7 +127,7 @@ public class MergedPoco {
 
     public static MergedPoco fromJson(JSONObject json){
         MergedPoco mp = new MergedPoco();
-        mp.gender = Gender.fromString(jsonString(json, jsonString(json, "gender")));
+        mp.gender = Gender.fromString(jsonString(json, "gender"));
 
         JSONArray array = jsonArray(json, "urls");
         if (array != null) {

@@ -1,5 +1,9 @@
 package org.yestech.rpx.objectmodel;
 
+import org.json.JSONObject;
+import static org.yestech.rpx.objectmodel.RPXUtil.jsonObject;
+import static org.yestech.rpx.objectmodel.RPXUtil.jsonString;
+
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlElement;
 
@@ -9,9 +13,6 @@ import javax.xml.bind.annotation.XmlElement;
 @XmlRootElement
 public class AuthInfoResponse {
 
-    public static enum RPXStat {
-        OK
-    }
 
     @XmlElement(name = "sreg")
     private SharedRegistration sreg;
@@ -80,5 +81,17 @@ public class AuthInfoResponse {
         result = 31 * result + (profile != null ? profile.hashCode() : 0);
         result = 31 * result + (mergedPoco != null ? mergedPoco.hashCode() : 0);
         return result;
+    }
+
+    public static AuthInfoResponse fromJson(JSONObject json) {
+        AuthInfoResponse response = new AuthInfoResponse();
+        JSONObject json2 = jsonObject(json, "sreg");
+        response.sreg = SharedRegistration.fromJson(json2);
+        json2 = jsonObject(json, "profile");
+        response.profile = Profile.fromJson(json2);
+        json2 = jsonObject(json, "merged_poco");
+        response.mergedPoco = MergedPoco.fromJson(json2);
+        response.stat = RPXStat.fromString(jsonString(json, "stat"));
+        return response;
     }
 }
