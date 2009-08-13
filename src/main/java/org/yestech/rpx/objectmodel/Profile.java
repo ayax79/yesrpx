@@ -22,6 +22,7 @@ public class Profile {
     private String providerName;
     private String identifier;
     private String email;
+    private String verifiedEmail;
 
     public Name getName() {
         return name;
@@ -95,6 +96,14 @@ public class Profile {
         this.email = email;
     }
 
+    public String getVerifiedEmail() {
+        return verifiedEmail;
+    }
+
+    public void setVerifiedEmail(String verifiedEmail) {
+        this.verifiedEmail = verifiedEmail;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -112,8 +121,10 @@ public class Profile {
             return false;
         if (providerName != null ? !providerName.equals(profile.providerName) : profile.providerName != null)
             return false;
-        //noinspection RedundantIfStatement
         if (url != null ? !url.equals(profile.url) : profile.url != null) return false;
+        //noinspection RedundantIfStatement
+        if (verifiedEmail != null ? !verifiedEmail.equals(profile.verifiedEmail) : profile.verifiedEmail != null)
+            return false;
 
         return true;
     }
@@ -129,6 +140,7 @@ public class Profile {
         result = 31 * result + (providerName != null ? providerName.hashCode() : 0);
         result = 31 * result + (identifier != null ? identifier.hashCode() : 0);
         result = 31 * result + (email != null ? email.hashCode() : 0);
+        result = 31 * result + (verifiedEmail != null ? verifiedEmail.hashCode() : 0);
         return result;
     }
 
@@ -144,6 +156,7 @@ public class Profile {
                 ", providerName='" + providerName + '\'' +
                 ", identifier='" + identifier + '\'' +
                 ", email='" + email + '\'' +
+                ", verifiedEmail='" + verifiedEmail + '\'' +
                 '}';
     }
 
@@ -162,6 +175,7 @@ public class Profile {
         p.setEmail(jsonString(json, "email"));
         p.setUrl(jsonString(json, "url"));
         p.setGender(Gender.fromString(jsonString(json, "gender")));
+        p.verifiedEmail = jsonString(json, "verifiedEmail");
         return p;
     }
 }

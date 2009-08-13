@@ -15,14 +15,11 @@ import java.io.*;
  * @author A.J. Wright
  */
 public class AuthInfoResponseTest {
+
     @Test
     public void testMyOpenIdResponse() throws IOException, JSONException {
 
-        InputStream in = getClass().getResourceAsStream("/aj-myopenid-authInfo.json");
-        Reader reader = new InputStreamReader(in);
-        StringWriter writer = new StringWriter();
-        IOUtil.copy(reader, writer);
-        JSONObject json = new JSONObject(writer.toString());
+        JSONObject json = loadFile("/aj-myopenid-authInfo.json");
         AuthInfoResponse response = AuthInfoResponse.fromJson(json);
 
         assertEquals(fromRPXDateString("1979-01-09"), response.getSreg().getDob());
@@ -50,5 +47,39 @@ public class AuthInfoResponseTest {
         assertEquals("other", response.getMergedPoco().getEmails().get(0).getType());
         assertEquals("ayax79@gmail.com", response.getMergedPoco().getEmails().get(0).getValue());
         assertEquals(RPXStat.OK, response.getStat());
+    }
+
+    public void testGmailResponse() throws JSONException, IOException {
+        JSONObject json = loadFile("/aj-gmail-authinfo.json");
+        AuthInfoResponse response = AuthInfoResponse.fromJson(json);
+
+        assertEquals("ayax79@gmail.com", response.getProfile().getVerifiedEmail());
+        assertEquals("Andrew", response.getProfile().getName().getGivenName());
+        assertEquals("Wright", response.getProfile().getName().getFamilyName());
+        assertEquals("Andrew Wright", response.getProfile().getName().getFormatted());
+        assertEquals("ayax79", response.getProfile().getDisplayname());
+        assertEquals("ayax79", response.getProfile().getPreferredUsername());
+        assertEquals("Google", response.getProfile().getProviderName());
+        assertEquals("https://www.google.com/accounts/o8/id?id=AItOawlGnDTam-IKbSzIiX76G_3R5uYleBpJgQc",
+                response.getProfile().getIdentifier());
+        assertEquals("ayax79@gmail.com", response.getProfile().getEmail());
+
+        assertEquals("en-US", response.getMergedPoco().getLanguageSpoken().get(0));
+        assertEquals("Andrew", response.getMergedPoco().getName().getGivenName());
+        assertEquals("Wright", response.getMergedPoco().getName().getFamilyName());
+        assertEquals("Andrew Wright", response.getMergedPoco().getName().getFormatted());
+        assertEquals("ayax79", response.getMergedPoco().getPreferredUsername());
+        assertEquals("other", response.getMergedPoco().getEmails().get(0).getType());
+        assertEquals("ayax79@gmail.com", response.getMergedPoco().getEmails().get(0).getValue());
+        assertEquals(RPXStat.OK, response.getStat());
+
+    }
+
+    private JSONObject loadFile(String file) throws IOException, JSONException {
+        InputStream in = getClass().getResourceAsStream(file);
+        Reader reader = new InputStreamReader(in);
+        StringWriter writer = new StringWriter();
+        IOUtil.copy(reader, writer);
+        return new JSONObject(writer.toString());
     }
 }

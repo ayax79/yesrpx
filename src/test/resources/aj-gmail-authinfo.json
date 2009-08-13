@@ -1,0 +1,33 @@
+{
+  "profile": {
+    "verifiedEmail": "ayax79@gmail.com",
+    "name": {
+      "givenName": "Andrew",
+      "familyName": "Wright",
+      "formatted": "Andrew Wright"
+    },
+    "displayName": "ayax79",
+    "preferredUsername": "ayax79",
+    "providerName": "Google",
+    "identifier": "https:\/\/www.google.com\/accounts\/o8\/id?id=AItOawlGnDTam-IKbSzIiX76G_3R5uYleBpJgQc",
+    "email": "ayax79@gmail.com"
+  },
+  "merged_poco": {
+    "languagesSpoken": [
+      "en-US"
+    ],
+    "preferredUsername": "ayax79",
+    "name": {
+      "familyName": "Wright",
+      "givenName": "Andrew",
+      "formatted": "Andrew Wright"
+    },
+    "emails": [
+      {
+        "type": "other",
+        "value": "ayax79@gmail.com"
+      }
+    ]
+  },
+  "stat": "ok"
+}

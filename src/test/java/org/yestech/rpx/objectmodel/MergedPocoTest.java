@@ -38,7 +38,7 @@ public class MergedPocoTest {
                 "    ]\n" +
                 "  }";
 
-        MergedPoco mp = MergedPoco.fromJson(new JSONObject(json));
+        MergedPortableContact mp = MergedPortableContact.fromJson(new JSONObject(json));
         assertEquals(mp.getGender(), mp.getGender());
         List<Url> list = mp.getUrls();
         assertNotNull(list);

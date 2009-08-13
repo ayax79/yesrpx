@@ -9,12 +9,13 @@ import javax.xml.bind.annotation.XmlRootElement;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.io.Serializable;
 
 /**
  * @author A.J. Wright
  */
 @XmlRootElement(name = "merged_poco")
-public class MergedPoco {
+public class MergedPortableContact implements Serializable {
 
     private Gender gender;
     private List<Url> urls = Collections.emptyList();
@@ -23,6 +24,7 @@ public class MergedPoco {
     private DateTime birthday;
     private List<Email> emails = Collections.emptyList();
     private Name name;
+    private List<String> languageSpoken = Collections.emptyList();
 
     public Gender getGender() {
         return gender;
@@ -80,17 +82,27 @@ public class MergedPoco {
         this.name = name;
     }
 
+    public List<String> getLanguageSpoken() {
+        return languageSpoken;
+    }
+
+    public void setLanguageSpoken(List<String> languageSpoken) {
+        this.languageSpoken = languageSpoken;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        MergedPoco that = (MergedPoco) o;
+        MergedPortableContact that = (MergedPortableContact) o;
 
         if (birthday != null ? !birthday.equals(that.birthday) : that.birthday != null) return false;
         if (displayname != null ? !displayname.equals(that.displayname) : that.displayname != null) return false;
         if (emails != null ? !emails.equals(that.emails) : that.emails != null) return false;
         if (gender != that.gender) return false;
+        if (languageSpoken != null ? !languageSpoken.equals(that.languageSpoken) : that.languageSpoken != null)
+            return false;
         if (name != null ? !name.equals(that.name) : that.name != null) return false;
         if (preferredUsername != null ? !preferredUsername.equals(that.preferredUsername) : that.preferredUsername != null)
             return false;
@@ -109,24 +121,26 @@ public class MergedPoco {
         result = 31 * result + (birthday != null ? birthday.hashCode() : 0);
         result = 31 * result + (emails != null ? emails.hashCode() : 0);
         result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (languageSpoken != null ? languageSpoken.hashCode() : 0);
         return result;
     }
 
     @Override
     public String toString() {
-        return "MergedPoco{" +
+        return "MergedPortableContact{" +
                 "gender=" + gender +
                 ", urls=" + urls +
                 ", preferredUsername='" + preferredUsername + '\'' +
                 ", displayname='" + displayname + '\'' +
                 ", birthday=" + birthday +
                 ", emails=" + emails +
-                ", name='" + name + '\'' +
+                ", name=" + name +
+                ", languageSpoken=" + languageSpoken +
                 '}';
     }
 
-    public static MergedPoco fromJson(JSONObject json){
-        MergedPoco mp = new MergedPoco();
+    public static MergedPortableContact fromJson(JSONObject json) {
+        MergedPortableContact mp = new MergedPortableContact();
         mp.gender = Gender.fromString(jsonString(json, "gender"));
 
         JSONArray array = jsonArray(json, "urls");
@@ -153,6 +167,14 @@ public class MergedPoco {
                 jo = jsonObject(array, i);
                 Email email = Email.fromJson(jo);
                 mp.emails.add(email);
+            }
+        }
+
+        array = jsonArray(json, "languagesSpoken");
+        if (array != null) {
+            mp.languageSpoken = new ArrayList<String>(array.length());
+            for (int i = 0, size = array.length(); i < size; i++) {
+                mp.languageSpoken.add(jsonString(array, i));
             }
         }
 

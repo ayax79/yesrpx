@@ -24,7 +24,7 @@ public class AuthInfoResponse {
     private Profile profile;
 
     @XmlElement(name = "merged_poco")
-    private MergedPoco mergedPoco;
+    private MergedPortableContact mergedPoco;
 
     public SharedRegistration getSreg() {
         return sreg;
@@ -50,11 +50,11 @@ public class AuthInfoResponse {
         this.profile = profile;
     }
 
-    public MergedPoco getMergedPoco() {
+    public MergedPortableContact getMergedPoco() {
         return mergedPoco;
     }
 
-    public void setMergedPoco(MergedPoco mergedPoco) {
+    public void setMergedPoco(MergedPortableContact mergedPoco) {
         this.mergedPoco = mergedPoco;
     }
 
@@ -90,7 +90,7 @@ public class AuthInfoResponse {
         json2 = jsonObject(json, "profile");
         response.profile = Profile.fromJson(json2);
         json2 = jsonObject(json, "merged_poco");
-        response.mergedPoco = MergedPoco.fromJson(json2);
+        response.mergedPoco = MergedPortableContact.fromJson(json2);
         response.stat = RPXStat.fromString(jsonString(json, "stat"));
         return response;
     }

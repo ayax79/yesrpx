@@ -68,4 +68,13 @@ public final class RPXUtil {
         return null;
     }
 
+    public static String jsonString(JSONArray array, int index) {
+        try {
+            if (array != null) return array.getString(index);
+        } catch (JSONException e) {
+            // ignore the exception
+        }
+        return null;
+    }
+
 }
