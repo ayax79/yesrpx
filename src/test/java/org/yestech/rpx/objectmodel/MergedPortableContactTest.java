@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * @author A.J. Wright
  */
-public class MergedPocoTest {
+public class MergedPortableContactTest {
 
     @Test
     public void testFromJson() throws JSONException {
@@ -40,10 +40,10 @@ public class MergedPocoTest {
 
         MergedPortableContact mp = MergedPortableContact.fromJson(new JSONObject(json));
         assertEquals(mp.getGender(), mp.getGender());
-        List<Url> list = mp.getUrls();
+        List<TypeValue> list = mp.getUrls();
         assertNotNull(list);
         assertEquals(1, list.size());
-        Url url = list.get(0);
+        TypeValue url = list.get(0);
         assertEquals("other", url.getType());
         assertEquals("http://ayax79.myopenid.com/", url.getValue());
         assertEquals("A.J.", mp.getPreferredUsername());
@@ -57,10 +57,10 @@ public class MergedPocoTest {
         assertEquals(1, birthday.getMonthOfYear());
         assertEquals(1979, birthday.getYear());
 
-        List<Email> emails = mp.getEmails();
+        List<TypeValue> emails = mp.getEmails();
         assertNotNull(emails);
         assertEquals(1, emails.size());
-        Email email = emails.get(0);
+        TypeValue email = emails.get(0);
         assertNotNull(email);
         assertEquals("other", email.getType());
         assertEquals("ayax79@gmail.com", email.getValue());

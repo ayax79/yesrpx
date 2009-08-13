@@ -10,7 +10,7 @@ import java.io.Serializable;
  * @author A.J. Wright
  */
 @XmlRootElement(name = "email")
-public class Email implements Serializable {
+public class TypeValue implements Serializable {
 
     private String type;
     private String value;
@@ -36,7 +36,7 @@ public class Email implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Email email = (Email) o;
+        TypeValue email = (TypeValue) o;
 
         if (value != null ? !value.equals(email.value) : email.value != null) return false;
         //noinspection RedundantIfStatement
@@ -54,14 +54,14 @@ public class Email implements Serializable {
 
     @Override
     public String toString() {
-        return "Email{" +
+        return "TypeValue{" +
                 "type='" + type + '\'' +
                 ", value='" + value + '\'' +
                 '}';
     }
 
-    public static Email fromJson(JSONObject json) {
-        Email email = new Email();
+    public static TypeValue fromJson(JSONObject json) {
+        TypeValue email = new TypeValue();
         email.type = jsonString(json, "type");
         email.value = jsonString(json, "value");
         return email;

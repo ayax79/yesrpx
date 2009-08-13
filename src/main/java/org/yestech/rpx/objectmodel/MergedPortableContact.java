@@ -18,11 +18,11 @@ import java.util.List;
 public class MergedPortableContact implements Serializable {
 
     private Gender gender;
-    private List<Url> urls = emptyList();
+    private List<TypeValue> urls = emptyList();
     private String preferredUsername;
     private String displayname;
     private DateTime birthday;
-    private List<Email> emails = emptyList();
+    private List<TypeValue> emails = emptyList();
     private Name name;
     private List<String> languageSpoken = emptyList();
     private List<String> movies = emptyList();
@@ -32,6 +32,8 @@ public class MergedPortableContact implements Serializable {
     private List<Organization> organizations = emptyList();
     private String relationshipStatus;
     private List<String> interests = emptyList();
+    private String utcOffset;
+    private List<TypeValue> photos;
 
     public Gender getGender() {
         return gender;
@@ -41,11 +43,11 @@ public class MergedPortableContact implements Serializable {
         this.gender = gender;
     }
 
-    public List<Url> getUrls() {
+    public List<TypeValue> getUrls() {
         return urls;
     }
 
-    public void setUrls(List<Url> urls) {
+    public void setUrls(List<TypeValue> urls) {
         this.urls = urls;
     }
 
@@ -73,11 +75,11 @@ public class MergedPortableContact implements Serializable {
         this.birthday = birthday;
     }
 
-    public List<Email> getEmails() {
+    public List<TypeValue> getEmails() {
         return emails;
     }
 
-    public void setEmails(List<Email> emails) {
+    public void setEmails(List<TypeValue> emails) {
         this.emails = emails;
     }
 
@@ -153,16 +155,32 @@ public class MergedPortableContact implements Serializable {
         this.interests = interests;
     }
 
+    public String getUtcOffset() {
+        return utcOffset;
+    }
+
+    public void setUtcOffset(String utcOffset) {
+        this.utcOffset = utcOffset;
+    }
+
+    public List<TypeValue> getPhotos() {
+        return photos;
+    }
+
+    public void setPhotos(List<TypeValue> photos) {
+        this.photos = photos;
+    }
+
     public static MergedPortableContact fromJson(JSONObject json) {
         MergedPortableContact mp = new MergedPortableContact();
         mp.gender = Gender.fromString(jsonString(json, "gender"));
 
         JSONArray array = jsonArray(json, "urls");
         if (array != null) {
-            mp.urls = new ArrayList<Url>(array.length());
+            mp.urls = new ArrayList<TypeValue>(array.length());
             for (int i = 0, size = array.length(); i < size; i++) {
                 JSONObject jo = jsonObject(array, i);
-                Url url = Url.fromJson(jo);
+                TypeValue url = TypeValue.fromJson(jo);
                 mp.urls.add(url);
             }
         }
@@ -176,10 +194,10 @@ public class MergedPortableContact implements Serializable {
 
         array = jsonArray(json, "emails");
         if (array != null) {
-            mp.emails = new ArrayList<Email>(array.length());
+            mp.emails = new ArrayList<TypeValue>(array.length());
             for (int i = 0, size = array.length(); i < size; i++) {
                 jo = jsonObject(array, i);
-                Email email = Email.fromJson(jo);
+                TypeValue email = TypeValue.fromJson(jo);
                 mp.emails.add(email);
             }
         }
@@ -199,7 +217,7 @@ public class MergedPortableContact implements Serializable {
                 mp.music.add(jsonString(array, i));
             }
         }
-        
+
         array = jsonArray(json, "movies");
         if (array != null) {
             mp.movies = new ArrayList<String>(array.length());
@@ -207,7 +225,7 @@ public class MergedPortableContact implements Serializable {
                 mp.movies.add(jsonString(array, i));
             }
         }
-        
+
         array = jsonArray(json, "tvShows");
         if (array != null) {
             mp.tvShows = new ArrayList<String>(array.length());
@@ -215,7 +233,7 @@ public class MergedPortableContact implements Serializable {
                 mp.tvShows.add(jsonString(array, i));
             }
         }
-        
+
         array = jsonArray(json, "interests");
         if (array != null) {
             mp.interests = new ArrayList<String>(array.length());
@@ -237,6 +255,18 @@ public class MergedPortableContact implements Serializable {
         }
 
         mp.relationshipStatus = jsonString(json, "relationshipStatus");
+        mp.utcOffset = jsonString(json, "utcOffset");
+
+        array = jsonArray(json, "photos");
+        if (array != null) {
+            mp.photos = new ArrayList<TypeValue>(array.length());
+
+            for (int i = 0, size = array.length(); i < size; i++) {
+                jo = jsonObject(array, i);
+                mp.photos.add(TypeValue.fromJson(jo));
+            }
+        }
+
 
         return mp;
     }

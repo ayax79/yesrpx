@@ -17,7 +17,7 @@ public class EmailTest {
                 "      }";
 
         JSONObject object = new JSONObject(json);
-        Email email = Email.fromJson(object);
+        TypeValue email = TypeValue.fromJson(object);
         assertEquals("ayax79@gmail.com", email.getValue());
         assertEquals("other", email.getType());
     }

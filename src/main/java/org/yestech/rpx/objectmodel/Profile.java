@@ -26,6 +26,7 @@ public class Profile implements Serializable {
     private String verifiedEmail;
     private String photo;
     private String utcOffset;
+    private Address address;
 
     public Name getName() {
         return name;
@@ -123,66 +124,12 @@ public class Profile implements Serializable {
         this.utcOffset = utcOffset;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Profile profile = (Profile) o;
-
-        if (birthday != null ? !birthday.equals(profile.birthday) : profile.birthday != null) return false;
-        if (displayname != null ? !displayname.equals(profile.displayname) : profile.displayname != null) return false;
-        if (email != null ? !email.equals(profile.email) : profile.email != null) return false;
-        if (gender != profile.gender) return false;
-        if (identifier != null ? !identifier.equals(profile.identifier) : profile.identifier != null) return false;
-        if (name != null ? !name.equals(profile.name) : profile.name != null) return false;
-        if (photo != null ? !photo.equals(profile.photo) : profile.photo != null) return false;
-        if (preferredUsername != null ? !preferredUsername.equals(profile.preferredUsername) : profile.preferredUsername != null)
-            return false;
-        if (providerName != null ? !providerName.equals(profile.providerName) : profile.providerName != null)
-            return false;
-        if (url != null ? !url.equals(profile.url) : profile.url != null) return false;
-        if (utcOffset != null ? !utcOffset.equals(profile.utcOffset) : profile.utcOffset != null) return false;
-        //noinspection RedundantIfStatement
-        if (verifiedEmail != null ? !verifiedEmail.equals(profile.verifiedEmail) : profile.verifiedEmail != null)
-            return false;
-
-        return true;
+    public Address getAddress() {
+        return address;
     }
 
-    @Override
-    public int hashCode() {
-        int result = name != null ? name.hashCode() : 0;
-        result = 31 * result + (displayname != null ? displayname.hashCode() : 0);
-        result = 31 * result + (preferredUsername != null ? preferredUsername.hashCode() : 0);
-        result = 31 * result + (url != null ? url.hashCode() : 0);
-        result = 31 * result + (gender != null ? gender.hashCode() : 0);
-        result = 31 * result + (birthday != null ? birthday.hashCode() : 0);
-        result = 31 * result + (providerName != null ? providerName.hashCode() : 0);
-        result = 31 * result + (identifier != null ? identifier.hashCode() : 0);
-        result = 31 * result + (email != null ? email.hashCode() : 0);
-        result = 31 * result + (verifiedEmail != null ? verifiedEmail.hashCode() : 0);
-        result = 31 * result + (photo != null ? photo.hashCode() : 0);
-        result = 31 * result + (utcOffset != null ? utcOffset.hashCode() : 0);
-        return result;
-    }
-
-    @Override
-    public String toString() {
-        return "Profile{" +
-                "name=" + name +
-                ", displayname='" + displayname + '\'' +
-                ", preferredUsername='" + preferredUsername + '\'' +
-                ", url='" + url + '\'' +
-                ", gender=" + gender +
-                ", birthday=" + birthday +
-                ", providerName='" + providerName + '\'' +
-                ", identifier='" + identifier + '\'' +
-                ", email='" + email + '\'' +
-                ", verifiedEmail='" + verifiedEmail + '\'' +
-                ", photo='" + photo + '\'' +
-                ", utcOffset='" + utcOffset + '\'' +
-                '}';
+    public void setAddress(Address address) {
+        this.address = address;
     }
 
     public static Profile fromJson(JSONObject json) {
@@ -202,7 +149,10 @@ public class Profile implements Serializable {
         p.setGender(Gender.fromString(jsonString(json, "gender")));
         p.verifiedEmail = jsonString(json, "verifiedEmail");
         p.photo = jsonString(json, "photo");
-        p.utcOffset = jsonString(json, "utcOffset"); 
+        p.utcOffset = jsonString(json, "utcOffset");
+        jo = jsonObject(json, "address");
+        p.address = Address.fromJson(jo);
+
         return p;
     }
 }

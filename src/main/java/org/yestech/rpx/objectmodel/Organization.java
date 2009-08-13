@@ -19,6 +19,16 @@ public class Organization implements Serializable {
     private DateTime endDate;
     private String name;
 
+    public Organization() {
+    }
+
+    public Organization(String name, String title, DateTime startDate, DateTime endDate) {
+        this.name = name;
+        this.title = title;
+        this.startDate = startDate;
+        this.endDate = endDate;
+    }
+
     public String getTitle() {
         return title;
     }
