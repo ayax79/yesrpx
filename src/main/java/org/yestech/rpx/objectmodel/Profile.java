@@ -6,12 +6,13 @@ import static org.yestech.rpx.objectmodel.RPXUtil.jsonObject;
 import static org.yestech.rpx.objectmodel.RPXUtil.jsonString;
 
 import javax.xml.bind.annotation.XmlRootElement;
+import java.io.Serializable;
 
 /**
  * @author A.J. Wright
  */
 @XmlRootElement(name = "profile")
-public class Profile {
+public class Profile implements Serializable {
 
     private Name name;
     private String displayname;
@@ -23,6 +24,8 @@ public class Profile {
     private String identifier;
     private String email;
     private String verifiedEmail;
+    private String photo;
+    private String utcOffset;
 
     public Name getName() {
         return name;
@@ -104,6 +107,22 @@ public class Profile {
         this.verifiedEmail = verifiedEmail;
     }
 
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
+    }
+
+    public String getUtcOffset() {
+        return utcOffset;
+    }
+
+    public void setUtcOffset(String utcOffset) {
+        this.utcOffset = utcOffset;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -117,11 +136,13 @@ public class Profile {
         if (gender != profile.gender) return false;
         if (identifier != null ? !identifier.equals(profile.identifier) : profile.identifier != null) return false;
         if (name != null ? !name.equals(profile.name) : profile.name != null) return false;
+        if (photo != null ? !photo.equals(profile.photo) : profile.photo != null) return false;
         if (preferredUsername != null ? !preferredUsername.equals(profile.preferredUsername) : profile.preferredUsername != null)
             return false;
         if (providerName != null ? !providerName.equals(profile.providerName) : profile.providerName != null)
             return false;
         if (url != null ? !url.equals(profile.url) : profile.url != null) return false;
+        if (utcOffset != null ? !utcOffset.equals(profile.utcOffset) : profile.utcOffset != null) return false;
         //noinspection RedundantIfStatement
         if (verifiedEmail != null ? !verifiedEmail.equals(profile.verifiedEmail) : profile.verifiedEmail != null)
             return false;
@@ -141,6 +162,8 @@ public class Profile {
         result = 31 * result + (identifier != null ? identifier.hashCode() : 0);
         result = 31 * result + (email != null ? email.hashCode() : 0);
         result = 31 * result + (verifiedEmail != null ? verifiedEmail.hashCode() : 0);
+        result = 31 * result + (photo != null ? photo.hashCode() : 0);
+        result = 31 * result + (utcOffset != null ? utcOffset.hashCode() : 0);
         return result;
     }
 
@@ -157,6 +180,8 @@ public class Profile {
                 ", identifier='" + identifier + '\'' +
                 ", email='" + email + '\'' +
                 ", verifiedEmail='" + verifiedEmail + '\'' +
+                ", photo='" + photo + '\'' +
+                ", utcOffset='" + utcOffset + '\'' +
                 '}';
     }
 
@@ -176,6 +201,8 @@ public class Profile {
         p.setUrl(jsonString(json, "url"));
         p.setGender(Gender.fromString(jsonString(json, "gender")));
         p.verifiedEmail = jsonString(json, "verifiedEmail");
+        p.photo = jsonString(json, "photo");
+        p.utcOffset = jsonString(json, "utcOffset"); 
         return p;
     }
 }

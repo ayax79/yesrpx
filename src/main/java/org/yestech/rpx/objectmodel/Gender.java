@@ -1,12 +1,13 @@
 package org.yestech.rpx.objectmodel;
 
 import javax.xml.bind.annotation.XmlRootElement;
+import java.io.Serializable;
 
 /**
  * @author A.J. Wright
  */
 @XmlRootElement(name = "gender")
-public enum Gender {
+public enum Gender implements Serializable {
     MALE,
     FEMALE;
 

@@ -6,10 +6,10 @@ import org.json.JSONObject;
 import static org.yestech.rpx.objectmodel.RPXUtil.*;
 
 import javax.xml.bind.annotation.XmlRootElement;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 import java.io.Serializable;
+import java.util.ArrayList;
+import static java.util.Collections.emptyList;
+import java.util.List;
 
 /**
  * @author A.J. Wright
@@ -18,13 +18,20 @@ import java.io.Serializable;
 public class MergedPortableContact implements Serializable {
 
     private Gender gender;
-    private List<Url> urls = Collections.emptyList();
+    private List<Url> urls = emptyList();
     private String preferredUsername;
     private String displayname;
     private DateTime birthday;
-    private List<Email> emails = Collections.emptyList();
+    private List<Email> emails = emptyList();
     private Name name;
-    private List<String> languageSpoken = Collections.emptyList();
+    private List<String> languageSpoken = emptyList();
+    private List<String> movies = emptyList();
+    private Address currentLocation;
+    private List<String> tvShows = emptyList();
+    private List<String> music = emptyList();
+    private List<Organization> organizations = emptyList();
+    private String relationshipStatus;
+    private List<String> interests = emptyList();
 
     public Gender getGender() {
         return gender;
@@ -90,53 +97,60 @@ public class MergedPortableContact implements Serializable {
         this.languageSpoken = languageSpoken;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        MergedPortableContact that = (MergedPortableContact) o;
-
-        if (birthday != null ? !birthday.equals(that.birthday) : that.birthday != null) return false;
-        if (displayname != null ? !displayname.equals(that.displayname) : that.displayname != null) return false;
-        if (emails != null ? !emails.equals(that.emails) : that.emails != null) return false;
-        if (gender != that.gender) return false;
-        if (languageSpoken != null ? !languageSpoken.equals(that.languageSpoken) : that.languageSpoken != null)
-            return false;
-        if (name != null ? !name.equals(that.name) : that.name != null) return false;
-        if (preferredUsername != null ? !preferredUsername.equals(that.preferredUsername) : that.preferredUsername != null)
-            return false;
-        //noinspection RedundantIfStatement
-        if (urls != null ? !urls.equals(that.urls) : that.urls != null) return false;
-
-        return true;
+    public List<String> getMovies() {
+        return movies;
     }
 
-    @Override
-    public int hashCode() {
-        int result = gender != null ? gender.hashCode() : 0;
-        result = 31 * result + (urls != null ? urls.hashCode() : 0);
-        result = 31 * result + (preferredUsername != null ? preferredUsername.hashCode() : 0);
-        result = 31 * result + (displayname != null ? displayname.hashCode() : 0);
-        result = 31 * result + (birthday != null ? birthday.hashCode() : 0);
-        result = 31 * result + (emails != null ? emails.hashCode() : 0);
-        result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + (languageSpoken != null ? languageSpoken.hashCode() : 0);
-        return result;
+    public void setMovies(List<String> movies) {
+        this.movies = movies;
     }
 
-    @Override
-    public String toString() {
-        return "MergedPortableContact{" +
-                "gender=" + gender +
-                ", urls=" + urls +
-                ", preferredUsername='" + preferredUsername + '\'' +
-                ", displayname='" + displayname + '\'' +
-                ", birthday=" + birthday +
-                ", emails=" + emails +
-                ", name=" + name +
-                ", languageSpoken=" + languageSpoken +
-                '}';
+    public Address getCurrentLocation() {
+        return currentLocation;
+    }
+
+    public void setCurrentLocation(Address currentLocation) {
+        this.currentLocation = currentLocation;
+    }
+
+    public List<String> getTvShows() {
+        return tvShows;
+    }
+
+    public void setTvShows(List<String> tvShows) {
+        this.tvShows = tvShows;
+    }
+
+    public List<String> getMusic() {
+        return music;
+    }
+
+    public void setMusic(List<String> music) {
+        this.music = music;
+    }
+
+    public List<Organization> getOrganizations() {
+        return organizations;
+    }
+
+    public void setOrganizations(List<Organization> organizations) {
+        this.organizations = organizations;
+    }
+
+    public String getRelationshipStatus() {
+        return relationshipStatus;
+    }
+
+    public void setRelationshipStatus(String relationshipStatus) {
+        this.relationshipStatus = relationshipStatus;
+    }
+
+    public List<String> getInterests() {
+        return interests;
+    }
+
+    public void setInterests(List<String> interests) {
+        this.interests = interests;
     }
 
     public static MergedPortableContact fromJson(JSONObject json) {
@@ -177,6 +191,52 @@ public class MergedPortableContact implements Serializable {
                 mp.languageSpoken.add(jsonString(array, i));
             }
         }
+
+        array = jsonArray(json, "music");
+        if (array != null) {
+            mp.music = new ArrayList<String>(array.length());
+            for (int i = 0, size = array.length(); i < size; i++) {
+                mp.music.add(jsonString(array, i));
+            }
+        }
+        
+        array = jsonArray(json, "movies");
+        if (array != null) {
+            mp.movies = new ArrayList<String>(array.length());
+            for (int i = 0, size = array.length(); i < size; i++) {
+                mp.movies.add(jsonString(array, i));
+            }
+        }
+        
+        array = jsonArray(json, "tvShows");
+        if (array != null) {
+            mp.tvShows = new ArrayList<String>(array.length());
+            for (int i = 0, size = array.length(); i < size; i++) {
+                mp.tvShows.add(jsonString(array, i));
+            }
+        }
+        
+        array = jsonArray(json, "interests");
+        if (array != null) {
+            mp.interests = new ArrayList<String>(array.length());
+            for (int i = 0, size = array.length(); i < size; i++) {
+                mp.interests.add(jsonString(array, i));
+            }
+        }
+
+        jo = jsonObject(json, "currentLocation");
+        mp.currentLocation = Address.fromJson(jo);
+
+        array = jsonArray(json, "organizations");
+        if (array != null) {
+            mp.organizations = new ArrayList<Organization>(array.length());
+            for (int i = 0, size = array.length(); i < size; i++) {
+                jo = jsonObject(array, i);
+                mp.organizations.add(Organization.fromJson(jo));
+            }
+        }
+
+        mp.relationshipStatus = jsonString(json, "relationshipStatus");
 
         return mp;
     }

@@ -4,12 +4,13 @@ import org.json.JSONObject;
 import static org.yestech.rpx.objectmodel.RPXUtil.jsonString;
 
 import javax.xml.bind.annotation.XmlRootElement;
+import java.io.Serializable;
 
 /**
  * @author A.J. Wright
  */
 @XmlRootElement(name = "name")
-public class Name {
+public class Name implements Serializable {
 
     private String formatted;
     private String familyName;

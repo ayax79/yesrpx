@@ -6,12 +6,13 @@ import static org.yestech.rpx.objectmodel.RPXUtil.fromRPXDateString;
 import static org.yestech.rpx.objectmodel.RPXUtil.jsonString;
 
 import javax.xml.bind.annotation.XmlRootElement;
+import java.io.Serializable;
 
 /**
  * @author A.J. Wright
  */
 @XmlRootElement(name = "sreg")
-public class SharedRegistration {
+public class SharedRegistration implements Serializable {
 
     private DateTime dob;
     private String nickname;

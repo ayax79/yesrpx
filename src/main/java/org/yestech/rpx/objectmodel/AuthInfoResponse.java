@@ -6,12 +6,13 @@ import static org.yestech.rpx.objectmodel.RPXUtil.jsonString;
 
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlElement;
+import java.io.Serializable;
 
 /**
  * @author A.J. Wright
  */
 @XmlRootElement
-public class AuthInfoResponse {
+public class AuthInfoResponse implements Serializable {
 
 
     @XmlElement(name = "sreg")

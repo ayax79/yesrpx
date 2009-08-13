@@ -4,12 +4,13 @@ import org.json.JSONObject;
 import static org.yestech.rpx.objectmodel.RPXUtil.jsonString;
 
 import javax.xml.bind.annotation.XmlRootElement;
+import java.io.Serializable;
 
 /**
  * @author A.J. Wright
  */
 @XmlRootElement
-public class Address {
+public class Address implements Serializable {
 
     private String formatted;
     private String streetAddress;
