@@ -3,6 +3,7 @@ package org.yestech.rpx;
 import org.yestech.rpx.objectmodel.AuthInfoResponse;
 import org.yestech.rpx.objectmodel.RPXException;
 import org.yestech.rpx.objectmodel.RPXStat;
+import org.yestech.rpx.objectmodel.GetContactsResponse;
 import static org.yestech.rpx.objectmodel.RPXUtil.jsonString;
 import org.json.JSONObject;
 import org.json.JSONException;
@@ -61,6 +62,23 @@ public class DefaultRPXClient implements RPXClient {
         if (ex != null) throw ex;
 
         return RPXStat.fromString(jsonString(jo, "stat"));
+    }
+
+    public GetContactsResponse getContacts(String identifier) throws JSONException, IOException, RPXException {
+        StringBuilder url = new StringBuilder(RPX_API_URL);
+        url.append("get_contacts");
+        url.append("?apiKey=").append(apiKey);
+        url.append("&identifier=").append(identifier);
+
+        HttpClient client = new HttpClient();
+        GetMethod get = new GetMethod(url.toString());
+        client.executeMethod(get);
+        String body = get.getResponseBodyAsString();
+        JSONObject jo = new JSONObject(body);
+        RPXException ex = RPXException.fromJSON(jo);
+        if (ex != null) throw ex;
+
+        return GetContactsResponse.fromJson(jo);
     }
 
 }
