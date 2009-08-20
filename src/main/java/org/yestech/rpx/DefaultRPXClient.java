@@ -1,16 +1,19 @@
 package org.yestech.rpx;
 
+import org.apache.commons.httpclient.HttpClient;
+import org.apache.commons.httpclient.methods.GetMethod;
+import org.json.JSONException;
+import org.json.JSONObject;
+import static org.yestech.rpx.RPXClient.Provider.GOOGLE;
+import static org.yestech.rpx.RPXClient.Provider.MICROSOFT_LIVE;
+import org.yestech.rpx.auth.GoogleAuthProvider;
+import org.yestech.rpx.auth.MicrosoftLiveProvider;
+import org.yestech.rpx.auth.RPXAuthProvider;
 import org.yestech.rpx.objectmodel.AuthInfoResponse;
+import org.yestech.rpx.objectmodel.GetContactsResponse;
 import org.yestech.rpx.objectmodel.RPXException;
 import org.yestech.rpx.objectmodel.RPXStat;
-import org.yestech.rpx.objectmodel.GetContactsResponse;
 import static org.yestech.rpx.objectmodel.RPXUtil.jsonString;
-import org.yestech.rpx.auth.RPXAuthProvider;
-import org.json.JSONObject;
-import org.json.JSONException;
-import org.apache.commons.httpclient.HttpClient;
-import org.apache.commons.httpclient.HttpMethod;
-import org.apache.commons.httpclient.methods.GetMethod;
 
 import java.io.IOException;
 
@@ -22,9 +25,11 @@ public class DefaultRPXClient implements RPXClient {
     private static final String RPX_API_URL = "https://rpxnow.com/api/v2/";
 
     private String apiKey;
+    private String realm;
 
-    public DefaultRPXClient(String apiKey) {
+    public DefaultRPXClient(String apiKey, String realm) {
         this.apiKey = apiKey;
+        this.realm = realm;
     }
 
     public AuthInfoResponse authInfo(String token, boolean extended) throws IOException, JSONException, RPXException {
@@ -91,15 +96,20 @@ public class DefaultRPXClient implements RPXClient {
         return GetContactsResponse.fromJson(jo);
     }
 
-    public void authenticate(RPXAuthProvider authProvider) throws IOException {
-        HttpClient httpClient = getHttpClient();
-        HttpMethod m = authProvider.getMethod();
+    public String buildAuthRedirect(Provider provider, String tokenUrl) throws IOException {
 
-        try {
-            httpClient.executeMethod(m);
-        } finally {
-            m.releaseConnection();
+        if (provider == MICROSOFT_LIVE) {
+            return buildAuthRedirect(new MicrosoftLiveProvider(), tokenUrl);
         }
+        else if (provider == GOOGLE) {
+            return buildAuthRedirect(new GoogleAuthProvider(), tokenUrl);
+
+        }
+        throw new IllegalArgumentException("unknown provider"+provider); //shouldn't happen
+    }
+
+    public String buildAuthRedirect(RPXAuthProvider provider, String tokenUrl) {
+        return provider.getRedirectUrl(realm, tokenUrl);
     }
 
 

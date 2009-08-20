@@ -6,5 +6,5 @@ import org.apache.commons.httpclient.HttpMethod;
  * @author A.J. Wright
  */
 public interface RPXAuthProvider {
-    HttpMethod getMethod();
+    String getRedirectUrl(String realm, String tokenUrl);
 }

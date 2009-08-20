@@ -13,7 +13,9 @@ import java.io.IOException;
  * @author A.J. Wright
  */
 public interface RPXClient {
-    void authenticate(RPXAuthProvider authProvider) throws IOException;
+    String buildAuthRedirect(Provider provider, String tokenUrl) throws IOException;
+
+    String buildAuthRedirect(RPXAuthProvider provider, String tokenUrl);
 
     static enum Provider {
         GOOGLE,
