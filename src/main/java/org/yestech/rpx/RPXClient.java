@@ -4,6 +4,7 @@ import org.yestech.rpx.objectmodel.AuthInfoResponse;
 import org.yestech.rpx.objectmodel.RPXStat;
 import org.yestech.rpx.objectmodel.RPXException;
 import org.yestech.rpx.objectmodel.GetContactsResponse;
+import org.yestech.rpx.auth.RPXAuthProvider;
 import org.json.JSONException;
 
 import java.io.IOException;
@@ -12,6 +13,13 @@ import java.io.IOException;
  * @author A.J. Wright
  */
 public interface RPXClient {
+    void authenticate(RPXAuthProvider authProvider) throws IOException;
+
+    static enum Provider {
+        GOOGLE,
+        MICROSOFT_LIVE
+    }
+
     AuthInfoResponse authInfo(String token, boolean extended) throws Exception;
 
     RPXStat map(String identifier, String primaryKey, boolean overwrite) throws IOException, JSONException, RPXException;

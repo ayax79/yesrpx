@@ -5,9 +5,11 @@ import org.yestech.rpx.objectmodel.RPXException;
 import org.yestech.rpx.objectmodel.RPXStat;
 import org.yestech.rpx.objectmodel.GetContactsResponse;
 import static org.yestech.rpx.objectmodel.RPXUtil.jsonString;
+import org.yestech.rpx.auth.RPXAuthProvider;
 import org.json.JSONObject;
 import org.json.JSONException;
 import org.apache.commons.httpclient.HttpClient;
+import org.apache.commons.httpclient.HttpMethod;
 import org.apache.commons.httpclient.methods.GetMethod;
 
 import java.io.IOException;
@@ -33,16 +35,20 @@ public class DefaultRPXClient implements RPXClient {
         url.append("&apiKey=").append(apiKey);
         url.append("&extended=").append(extended);
 
-        HttpClient client = new HttpClient();
+        HttpClient client = getHttpClient();
         GetMethod get = new GetMethod(url.toString());
-        client.executeMethod(get);
-        String body = get.getResponseBodyAsString();
-        JSONObject jo = new JSONObject(body);
-        RPXException ex = RPXException.fromJSON(jo);
-        if (ex != null) throw ex; // if the response was an exception throw it.
+        try {
+            client.executeMethod(get);
+            String body = get.getResponseBodyAsString();
+            JSONObject jo = new JSONObject(body);
+            RPXException ex = RPXException.fromJSON(jo);
+            if (ex != null) throw ex; // if the response was an exception throw it.
 
-        // If not continue on
-        return AuthInfoResponse.fromJson(jo);
+            // If not continue on
+            return AuthInfoResponse.fromJson(jo);
+        } finally {
+            get.releaseConnection();
+        }
     }
 
     public RPXStat map(String identifier, String primaryKey, boolean overwrite) throws IOException, JSONException, RPXException {
@@ -53,15 +59,19 @@ public class DefaultRPXClient implements RPXClient {
         url.append("&primaryKey=").append(primaryKey);
         url.append("&overwrise=").append(overwrite);
 
-        HttpClient client = new HttpClient();
+        HttpClient client = getHttpClient();
         GetMethod get = new GetMethod(url.toString());
-        client.executeMethod(get);
-        String body = get.getResponseBodyAsString();
-        JSONObject jo = new JSONObject(body);
-        RPXException ex = RPXException.fromJSON(jo);
-        if (ex != null) throw ex;
+        try {
+            client.executeMethod(get);
+            String body = get.getResponseBodyAsString();
+            JSONObject jo = new JSONObject(body);
+            RPXException ex = RPXException.fromJSON(jo);
+            if (ex != null) throw ex;
 
-        return RPXStat.fromString(jsonString(jo, "stat"));
+            return RPXStat.fromString(jsonString(jo, "stat"));
+        } finally {
+            get.releaseConnection();
+        }
     }
 
     public GetContactsResponse getContacts(String identifier) throws JSONException, IOException, RPXException {
@@ -70,7 +80,7 @@ public class DefaultRPXClient implements RPXClient {
         url.append("?apiKey=").append(apiKey);
         url.append("&identifier=").append(identifier);
 
-        HttpClient client = new HttpClient();
+        HttpClient client = getHttpClient();
         GetMethod get = new GetMethod(url.toString());
         client.executeMethod(get);
         String body = get.getResponseBodyAsString();
@@ -79,6 +89,22 @@ public class DefaultRPXClient implements RPXClient {
         if (ex != null) throw ex;
 
         return GetContactsResponse.fromJson(jo);
+    }
+
+    public void authenticate(RPXAuthProvider authProvider) throws IOException {
+        HttpClient httpClient = getHttpClient();
+        HttpMethod m = authProvider.getMethod();
+
+        try {
+            httpClient.executeMethod(m);
+        } finally {
+            m.releaseConnection();
+        }
+    }
+
+
+    protected HttpClient getHttpClient() {
+        return new HttpClient();
     }
 
 }
